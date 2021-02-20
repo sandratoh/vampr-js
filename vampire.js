@@ -52,6 +52,9 @@ class Vampire {
       return vampire.isMoreSeniorThan(this) ? vampire : this;
     }
 
+    if (vampire.creator === this.creator) {
+      return this.creator;
+
     } else {
       if (vampire.creator === null) {
         return vampire;
