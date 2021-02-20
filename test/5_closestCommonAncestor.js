@@ -57,6 +57,12 @@ describe("Vampire", function() {
     })
 
     it("should be root for offspring 8 and offspring 7", () => {
+      // // console.log('rootVampire', rootVampire)
+      // // console.log('offspring 1', offspring1)
+      // // console.log('offspring 2', offspring2)
+      // console.log('offspring 3', offspring3)
+      // console.log('offspring 4', offspring4)
+      // console.log('offspring 7', offspring7)
       expect(offspring7.closestCommonAncestor(offspring8).name).to.equal(rootVampire.name);
       expect(offspring8.closestCommonAncestor(offspring7).name).to.equal(rootVampire.name);
     })
