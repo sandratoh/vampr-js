@@ -40,25 +40,17 @@ class Vampire {
 
   // Returns the vampire object with that name, or null if no vampire exists with that name
   vampireWithName(name) {
-    let vampire = null;
-
     if (this.name === name) {
-      vampire = this;
+      return this;
     }
 
     for (const offspringVamp of this.offspring) {
       if (offspringVamp.vampireWithName(name)) {
-        return offspringVamp;
+        return offspringVamp.vampireWithName(name);
       }
     }
 
-    // for (const offspringVamp of this.offspring) {
-    //   if (offspringVamp) {
-    //     vampire = offspringVamp.vampireWithName(name);
-    //   }
-    // }
-
-    return vampire;
+    return null;
   }
 
   // Returns the total number of vampires that exist
