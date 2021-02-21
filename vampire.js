@@ -55,15 +55,20 @@ class Vampire {
     if (vampire.creator === this.creator) {
       return this.creator;
 
+    // if not the same creator
     } else {
+      // if any of vampire is root
       if (vampire.creator === null || this.creator === null) {
         return vampire.creator === null ? vampire : this;
 
-      } else if (vampire.isMoreSeniorThan(this)) {
-        return vampire.creator;
-      } else {
+      // return the one that is more senior
+      } else if (vampire.isMoreSeniorThan(this) || this.isMoreSeniorThan(vampire)) {
+        return vampire.isMoreSeniorThan(this) ? vampire.creator : this.creator;
 
-        return this.creator;
+      // } else {
+        
+
+      //   return;
       }
     }
   }
