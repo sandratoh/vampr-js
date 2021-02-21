@@ -72,6 +72,7 @@ class Vampire {
       } else if (vampire.isMoreSeniorThan(this) || this.isMoreSeniorThan(vampire)) {
         return vampire.isMoreSeniorThan(this) ? vampire.creator : this.creator;
       
+        // NOTE: CURRENTLY NOT PASSING LAST ASSERTION TEST
       }
     }
   }
