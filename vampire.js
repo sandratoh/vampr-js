@@ -33,7 +33,9 @@ class Vampire {
 
   // Returns true if this vampire is more senior than the other vampire. (Who is closer to the original vampire)
   isMoreSeniorThan(vampire) {
-    return this.numberOfVampiresFromOriginal < vampire.numberOfVampiresFromOriginal ? true : false;
+    return (
+      this.numberOfVampiresFromOriginal < vampire.numberOfVampiresFromOriginal
+    );
   }
 
   /** Tree traversal methods **/
@@ -59,7 +61,7 @@ class Vampire {
 
     if (this.offspring.length > 0) {
       for (const offspringVamp of this.offspring) {
-        total ++;
+        total++;
 
         if (offspringVamp.offspring.length > 0) {
           total += offspringVamp.totalDescendents;
@@ -94,35 +96,43 @@ class Vampire {
   // * when comparing Ansel and Sarah, Ansel is the closest common anscestor.
   // * when comparing Ansel and Andrew, Ansel is the closest common anscestor.
   closestCommonAncestor(vampire) {
-    if (vampire === this) {
-      return this;
-    }
+    if (vampire === this) return this;
 
-    // if one or the other is the creator
-    if (vampire === this.creator || this === vampire.creator) {
-      return vampire === this.creator ? vampire : this;
-    }
+    // If one or the other is the creator
+    if (vampire === this.creator) return vampire;
+    if (this === vampire.creator) return this;
 
-    // if same creator
-    if (vampire.creator === this.creator) {
-      return this.creator;
+    // If same creator
+    if (vampire.creator === this.creator) return this.creator;
 
-    // if not the same creator
-    } else {
-      // if any of vampire is root
-      if (vampire.creator === null || this.creator === null) {
-        return vampire.creator === null ? vampire : this;
+    // If any of vampire is root
+    if (vampire.creator === null) return vampire;
+    if (this.creator === null) return this;
 
-      // TO DO: use recursion or depth tree traversal to find lowest common ancestor if none is matching
-      // return the one that is more senior?? works for test 5 some reason but wrong code probably
-      } else if (vampire.isMoreSeniorThan(this) || this.isMoreSeniorThan(vampire)) {
-        return vampire.isMoreSeniorThan(this) ? vampire.creator : this.creator;
-      
-        // NOTE: CURRENTLY NOT PASSING LAST ASSERTION TEST
+    // Use recursion/depth tree traversal to move up tree node comparing higher-order ancestor
+    if (vampire.creator !== this.creator) {
+      let creatorClosestAncestor;
+      let upperVampire;
+
+      if (this.isMoreSeniorThan(vampire)) {
+        upperVampire = vampire.creator;
+        while (!creatorClosestAncestor) {
+          creatorClosestAncestor = this.closestCommonAncestor(upperVampire);
+          upperVampire = upperVampire.creator;
+        }
       }
+
+      if (vampire.isMoreSeniorThan(this)) {
+        upperVampire = this.creator;
+        while (!creatorClosestAncestor) {
+          creatorClosestAncestor = upperVampire.closestCommonAncestor(vampire);
+          upperVampire = upperVampire.creator;
+        }
+      }
+
+      return creatorClosestAncestor;
     }
   }
 }
 
 module.exports = Vampire;
-
