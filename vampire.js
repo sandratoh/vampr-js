@@ -22,10 +22,10 @@ class Vampire {
   // Returns the number of vampires away from the original vampire this vampire is
   get numberOfVampiresFromOriginal() {
     let numberOfVampire = 0;
-    let currentVampire = this;
+    let lowerVampire = this;
 
-    while (currentVampire.creator) {
-      currentVampire = currentVampire.creator;
+    while (lowerVampire.creator) {
+      lowerVampire = lowerVampire.creator;
       numberOfVampire++;
     }
     return numberOfVampire;
@@ -112,19 +112,16 @@ class Vampire {
     // Use recursion/depth tree traversal to move up tree node comparing higher-order ancestor
     if (vampire.creator !== this.creator) {
       let creatorClosestAncestor;
-      let upperVampire;
-      let currentVampire;
+      let upperVampire = this.creator;
+      let lowerVampire = vampire;
 
       if (this.isMoreSeniorThan(vampire)) {
         upperVampire = vampire.creator;
-        currentVampire = this;
-      } else {
-        upperVampire = this.creator;
-        currentVampire = vampire;
+        lowerVampire = this;
       }
 
       while (!creatorClosestAncestor) {
-        creatorClosestAncestor = currentVampire.closestCommonAncestor(
+        creatorClosestAncestor = lowerVampire.closestCommonAncestor(
           upperVampire
         );
         upperVampire = upperVampire.creator;
