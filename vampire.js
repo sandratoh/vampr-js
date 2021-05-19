@@ -113,21 +113,21 @@ class Vampire {
     if (vampire.creator !== this.creator) {
       let creatorClosestAncestor;
       let upperVampire;
+      let currentVampire;
 
       if (this.isMoreSeniorThan(vampire)) {
         upperVampire = vampire.creator;
-        while (!creatorClosestAncestor) {
-          creatorClosestAncestor = this.closestCommonAncestor(upperVampire);
-          upperVampire = upperVampire.creator;
-        }
+        currentVampire = this;
+      } else {
+        upperVampire = this.creator;
+        currentVampire = vampire;
       }
 
-      if (vampire.isMoreSeniorThan(this)) {
-        upperVampire = this.creator;
-        while (!creatorClosestAncestor) {
-          creatorClosestAncestor = upperVampire.closestCommonAncestor(vampire);
-          upperVampire = upperVampire.creator;
-        }
+      while (!creatorClosestAncestor) {
+        creatorClosestAncestor = currentVampire.closestCommonAncestor(
+          upperVampire
+        );
+        upperVampire = upperVampire.creator;
       }
 
       return creatorClosestAncestor;
